@@ -18,11 +18,6 @@ spec:
     - port: {{add .Values.service.port 1001}}
       name: raft-rpc
       targetPort: {{add .Values.nacos.serverPort 1001}}
-    ## 兼容1.4.x版本的选举端口
-    - port: 7848
-      name: old-raft-rpc
-      targetPort: 7848
-      protocol: TCP
   selector:
     app.kubernetes.io/name: {{ include "nacos.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
@@ -44,19 +39,16 @@ spec:
       targetPort: {{ .Values.nacos.serverPort }}
       protocol: TCP
       name: http
+      {{- if eq .Values.service.type "NodePort" }}
+      nodePort: {{ .Values.service.nodePortHttp }}
     - port: {{ add .Values.service.port 1000}}
       name: client-rpc
       targetPort: {{add .Values.nacos.serverPort 1000}}
+      {{- if eq .Values.service.type "NodePort" }}
+      nodePort: {{ .Values.service.nodePortGrpc }}
     - port: {{add .Values.service.port 1001}}
       name: raft-rpc
       targetPort: {{add .Values.nacos.serverPort 1001}}
-    ## 兼容1.4.x版本的选举端口
-    - port: 7848
-      name: old-raft-rpc
-      targetPort: 7848
-      protocol: TCP
-      {{- if eq .Values.service.type "NodePort" }}
-      nodePort: {{ .Values.service.nodePort }}
   {{- end }}
   selector:
     app.kubernetes.io/name: {{ include "nacos.name" . }}

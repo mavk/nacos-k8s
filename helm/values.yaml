@@ -52,7 +52,8 @@ service:
   #type: ClusterIP
   type: NodePort
   port: 8848
-  nodePort: 30000
+  nodePortHttp: 3006
+  nodePortGrpc: 3007
 
 
 ingress:

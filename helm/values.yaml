@@ -6,6 +6,14 @@ global:
   mode: standalone
 #  mode: cluster
 
+auth:
+  enable: false
+  token: 7e3447eb088d4a37879091be693006c3
+  server:
+    identity:
+      key: ac94da1010074f0db499a90df1f6147f
+      value: dc7066d2ad6c45429f16febaf0b15e71
+
 ############################nacos###########################
 namespace: default
 nacos:
@@ -47,14 +55,13 @@ persistence:
       requests:
         storage: 5Gi
 
-
-service:
-  #type: ClusterIP
+clientService:
+  enable: false
+  labels: null
+  annotations: null
   type: NodePort
-  port: 8848
   nodePortHttp: 30006
   nodePortGrpc: 30007
-
 
 ingress:
   enabled: false

@@ -77,8 +77,6 @@ spec:
               name: client-rpc
             - containerPort: {{ add .Values.nacos.serverPort 1001 }}
               name: raft-rpc
-            - containerPort: 7848
-              name: old-raft-rpc
           resources:
           {{- toYaml .Values.resources | nindent 12 }}
           env:
@@ -91,7 +89,6 @@ spec:
             {{- if eq .Values.global.mode "standalone" }}
             - name: MODE
               value: "standalone"
-
             {{- else if eq .Values.global.mode "cluster" }}
             - name: SERVICE_NAME
               value: "nacos-hs"
@@ -136,10 +133,29 @@ spec:
                 configMapKeyRef:
                   name: nacos-cm
                   key: mysql.param
-            {{else}}
+            {{- else}}
             - name: EMBEDDED_STORAGE
               value: embedded
-          {{end}}
+            {{- end}}
+            {{- if .Values.auth.enable }}
+            - name: NACOS_AUTH_ENABLE
+              value: "true"
+            - name: NACOS_AUTH_TOKEN
+              valueFrom:
+                configMapKeyRef:
+                  name: nacos-cm
+                  key: auth.token
+            - name: NACOS_AUTH_IDENTITY_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: nacos-cm
+                  key: auth.server.identity.key
+            - name: NACOS_AUTH_IDENTITY_VALUE
+              valueFrom:
+                configMapKeyRef:
+                  name: nacos-cm
+                  key: auth.server.identity.value
+            {{- end }}
           volumeMounts:
             - name: data
               mountPath: /home/nacos/plugins/peer-finder
@@ -162,4 +178,3 @@ spec:
       spec:
   {{- toYaml .Values.persistence.data | nindent 8 }}
   {{- end }}
-

@@ -1,3 +1,12 @@
+
+github官方原始项目地址：`https://github.com/nacos-group/nacos-k8s`。
+
+github基于官方项目分叉：`https://github.com/mavk/nacos-k8s`。
+
+基于官方nacos-k8s项目分叉后大量修改。
+
+该项目是github分叉项目的本地副本，手动从github同步到本仓库（后续使用GitLab自动同步）。
+
 # Kubernetes Nacos
 
 

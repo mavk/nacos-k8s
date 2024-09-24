@@ -18,4 +18,4 @@ data:
   auth.server.identity.key: {{.Values.auth.server.identity.key}}
   auth.server.identity.value: {{.Values.auth.server.identity.value}}
   {{- end }}
-  {{- end }}
+{{- end }}
